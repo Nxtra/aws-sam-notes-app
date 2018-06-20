@@ -19,8 +19,8 @@ The local Dynamo instance also requires (dummy) credentials. Either create a fil
  
  ```
 [default]
-	aws_access_key_id ="id"
-	aws_secret_access_key ="key"
+aws_access_key_id="id"
+aws_secret_access_key="key"
 ```
 
 or set the _AWS_ACCESS_KEY_ID_ and _AWS_SECRET_ACCESS_KEY_ environment variables.
