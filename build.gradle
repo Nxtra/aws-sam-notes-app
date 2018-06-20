@@ -1,0 +1,11 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        jcenter()
+    }
+}
+
+version = file('version').text.trim()
+group = 'be.houbrechts-it'

@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS serverless demo application using SAM, API-gateway, Lambda and Dynamo DB
+
+Resources:
+  APIGatewayNodejs:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: dev
+
+      DefinitionBody:
+          'Fn::Transform':
+            Name: 'AWS::Include'
+            Parameters:
+              Location: ../swagger.yaml
+
+  APILambdaNodejs:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/bundle.js.zip
+      Handler: bundle.handler
+      Runtime: nodejs8.10
+      Events:
+        Home:
+          Type: Api
+          Properties:
+            RestApiId: !Ref APIGatewayNodejs
+            Path: /
+            Method: ANY
+        Info:
+          Type: Api
+          Properties:
+            RestApiId: !Ref APIGatewayNodejs
+            Path: /info
+            Method: ANY
+        Notes:
+          Type: Api
+          Properties:
+            RestApiId: !Ref APIGatewayNodejs
+            Path: /notes
+            Method: ANY
+        Note:
+          Type: Api
+          Properties:
+            RestApiId: !Ref APIGatewayNodejs
+            Path: /notes/{id}
+            Method: ANY
+        CatchAll:
+          Type: Api
+          Properties:
+            RestApiId: !Ref APIGatewayNodejs
+            Path: /{proxy+}
+            Method: ANY
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          DYNAMO_ENDPOINT_URL: http://dynamodb:8000
+
+  NotesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: notes
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1

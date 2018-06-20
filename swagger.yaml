@@ -1,0 +1,67 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Notes
+  description: Simple note keeping application
+host: notes.swagger.io
+basePath: /prod
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /:
+    get:
+      summary: Landing page
+      produces:
+        - text/html
+      responses:
+        "200":
+          description: Application info and request/context details
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APILambda.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /info:
+    get:
+      summary: Application info
+      operationId: info
+      responses:
+        "200":
+          description: Application info and request/context details
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APILambda.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /notes:
+    get:
+      summary: Application info
+      operationId: info
+      responses:
+        "200":
+          description: Application info and request/context details
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APILambda.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+  /notes/{id}:
+    get:
+      summary: Application info
+      operationId: info
+      responses:
+        "200":
+          description: Application info and request/context details
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APILambda.Arn}/invocations"
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy

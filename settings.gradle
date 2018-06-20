@@ -1,0 +1,3 @@
+rootProject.name= 'aws-sam-notes-app'
+
+include 'api-nodejs'

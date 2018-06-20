@@ -1,0 +1,93 @@
+doctype html
+html
+    head
+        title Serverless Notes API landing page
+    body
+        h1 Serverless Notes API landing page
+        p
+            | Welcome to your AWS serverless application. This example application has several resources configured for you to explore.
+            | State is stored in memory in a given container, and is therfore ephemeral - see
+            a(href='https://aws.amazon.com/blogs/compute/container-reuse-in-lambda/', target='_blank') Understanding Container Reuse in AWS Lambda
+            | &nbsp;for more information.
+        p
+            | This example API lets your save and retrieve simple notes.
+            | The data is stored in a Dynamo table.
+        section.resources
+            h2 Resources
+            section.resource
+                h3
+                    a.resource-example-link(href='notes') GET /notes
+                p  &nbsp;Returns a list of all notes.
+                code
+                    | curl
+                    span= apiUrl
+                    | /users -H 'accept: application/json'
+            section.resource
+                h3 POST /notes
+                p  &nbsp;Creates a new note.
+                code
+                    | curl
+                    span= apiUrl
+                    | /notes -X POST -d '{"userId":"Sam"}' -H 'accept: application/json'
+            section.resource
+                h3
+                    a.resource-example-link(href='notes/3a2bfd82-8254-4182-8da2-3f13f29fdb58') GET /notes/:id
+                p  &nbsp;Returns a single note.
+                code
+                    | curl
+                    span= apiUrl
+                    | /notes/1 -H 'accept: application/json'
+            section.resource
+                h3 PUT /notes/:id
+                p  &nbsp;Updates an existing note.
+                code
+                    | curl
+                    span= apiUrl
+                    | /notes/3a2bfd82-8254-4182-8da2-3f13f29fdb58 -X PUT -d '{"userId":"Samantha"}' -H 'accept: application/json'
+            section.resource
+                h3 DELETE /notes/:id
+                p  &nbsp;Deletes an existing note.
+                code
+                    | curl
+                    span= apiUrl
+                    | /notes/1 -X DELETE -H 'accept: application/json'
+
+        section.form
+            h2 Form
+            p Experiment with POST and PUT via the form below. Leave the id empty to create a new note (POST) or enter an id to update a note's name (PUT).
+            form
+                div.form-group
+                    label(for='idField') note id
+                    input(type='text' name='id' id='idField' placeholder='optional')
+                div.form-group
+                    label(for='userIdField') userId
+                    input(type='text' name='userId' id='userIdField')
+                input(type='submit')
+            p.result
+
+
+        script.
+          var form = document.querySelector('form')
+          form.addEventListener('submit', function (event) {
+            event.preventDefault()
+            var id = document.getElementById('idField').value
+            var userId = document.getElementById('userIdField').value
+            var endpoint = id ? 'notes/' + id : 'notes'
+
+            if (!window.fetch) {
+              alert('Your browser does not have fetch support, which this demo uses. Try again in a modern browser (https://caniuse.com/fetch) or modify the example to use an alternate approach (e.g. XMLHttpRequest or your library of choice.)')
+            }
+
+            return fetch(endpoint, {
+              method: id ? 'PUT' : 'POST',
+              headers: {
+                'content-type': 'application/json'
+              },
+              body: JSON.stringify({userId: userId})
+            }).then(function (response) {
+              return response.json();
+            }).then(function (myJson) {
+              console.log(myJson);
+              document.getElementsByClassName('result')[0].innerHTML = JSON.stringify(myJson)
+            })
+          })

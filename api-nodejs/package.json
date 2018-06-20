@@ -1,0 +1,45 @@
+{
+  "name": "aws-sam-notes-api",
+  "description": "AWS serverless demo application using SAM, API-gateway, Lambda and Dynamo DB",
+  "scripts": {
+    "testcoverage": "nyc --check-coverage --lines 90 npm run test:unit",
+    "report": "nyc report --reporter=html",
+    "unittest": "blue-tape test/**/**.spec.js | tap-spec",
+    "style": "standard \\\"src/**/*.js\\\" | snazzy",
+    "style:fix": "standard \\\"src/**/*.js\\\" --fix",
+    "watch": "webpack --watch --run-dev",
+    "build": "webpack --run-prod",
+    "createTables": "cd scripts && node createDynamoTables.js && cd .."
+  },
+  "dependencies": {
+    "aws-sdk": "^2.259.1",
+    "aws-serverless-express": "^3.2.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "pug": "^2.0.3",
+    "pug-loader": "^2.4.0",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "blue-tape": "^1.0.0",
+    "nyc": "^12.0.2",
+    "snazzy": "^7.0.0",
+    "standard": "^11.0.1",
+    "tap-spec": "^5.0.0",
+    "webpack": "^4.12.0",
+    "webpack-command": "^0.2.1",
+    "zip-webpack-plugin": "^3.0.0"
+  },
+  "peerDependencies": {},
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com:houbie/aws-sam-notes-app.git"
+  },
+  "author": "Ivo Houbrechts",
+  "version": "0.1.0",
+  "license": "MIT"
+}

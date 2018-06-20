@@ -1,0 +1,23 @@
+plugins {
+    id "com.moowork.node" version "1.2.0"
+}
+
+task buildInfo(type: Copy) {
+    from 'src/info.json'
+    into buildDir
+    expand(projectName: project.name,
+            projectVersion: project.version,
+            builtDate: new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            gitCommit: "git rev-parse HEAD".execute().text.trim(),
+            gitBranch: "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+    )
+}
+
+
+node {
+    version = '8.10.0'
+    npmVersion = '5.6.0'
+    download = true
+}
+
+task watch(dependsOn: ['npm_run_watch', 'npm_run_createTables'])

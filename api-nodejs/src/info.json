@@ -1,0 +1,7 @@
+{
+    "Application-Name": "$projectName",
+    "Application-Version": "$projectVersion",
+    "Built-Date": "$builtDate",
+    "Git-Commit": "$gitCommit",
+    "Git-Branch": "$gitBranch"
+}

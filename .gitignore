@@ -1,0 +1,15 @@
+.gradle/
+/build/
+!gradle-wrapper.jar
+gradle-app.setting
+.gradletasknamecache
+
+/out
+*.iml
+.idea
+
+node_modules
+dist/
+coverage/
+.history
+.vscode
